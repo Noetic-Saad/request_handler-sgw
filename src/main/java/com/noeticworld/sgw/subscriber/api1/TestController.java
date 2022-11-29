@@ -29,7 +29,8 @@ public class TestController {
         Timestamp rEndTime = Timestamp.valueOf(yourDate.atTime(LocalTime.of(21, 00, 00)));
 
         Request request = new Request.Builder()
-                .url("http://192.168.127.62:10001/postback?rStart=" + rStartTime.getTime() + "&rEnd=" + rEndTime.getTime())
+                //.url("http://192.168.127.62:10001/postback?rStart=" + rStartTime.getTime() + "&rEnd=" + rEndTime.getTime())
+                .url("http://localhost:10001/postback?rStart=" + rStartTime.getTime() + "&rEnd=" + rEndTime.getTime())
                 .build();
 
         try {
