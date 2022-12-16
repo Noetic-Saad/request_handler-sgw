@@ -20,7 +20,7 @@ public class SchedulerService {
     Logger log= LoggerFactory.getLogger(SchedulerService.class.getName());
     @Autowired
     VendorRequestRedisRepository vendorRequestRedisRepository;
-    @Scheduled(cron = "0 0/30 * * * ?")
+//    @Scheduled(cron = "0 0/30 * * * ?")
     public void expireRedisKeys(){
         List listofids = vendorRequestRedisRepository.findAll();
             log.info("Id Size : "+listofids.size());

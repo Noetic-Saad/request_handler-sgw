@@ -70,6 +70,7 @@ public class OtpVerificationController {
         System.out.println(otpRecordsEntityList.size());
         List<OtpRecordsEntity> recordsEntities = new ArrayList<>();
         for (OtpRecordsEntity otpRecordsEntity : otpRecordsEntityList) {
+            System.out.println("OTP RECORDS ENTITY : "+otpRecordsEntity.getMsisdn() + " Equals : " + msisdn);
             if(otpRecordsEntity.getMsisdn().equals(msisdn))
             {
                 recordsEntities.add(otpRecordsEntity);
@@ -83,6 +84,7 @@ public class OtpVerificationController {
                 return o1.getCdate().compareTo(o2.getCdate());
             }
         });
+
         System.out.println(recordsEntities.get(0).getOtpNumber());
         return new Long(otpRecordsEntityList.get(0).getOtpNumber());
     }

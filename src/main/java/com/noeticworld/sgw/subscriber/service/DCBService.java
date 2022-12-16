@@ -47,7 +47,7 @@ public class DCBService {
             String correlationId = Base64.getEncoder().encodeToString((LocalDateTime.now().format(formatter) + UUID.randomUUID().toString()).getBytes());
             requestSender.send(routingKey, generateMessageJSON(vendorPlanId, dcbRequestDto, action, correlationId,httpServletRequest));
             requestStatusService.createDcbRequestState(correlationId,Long.parseLong(vendorPlanId));
-log.info("SUBSCRIBER SERVICE | DCBSERVICE CLASS | ProcessRequest | " + correlationId +" | "+ dcbRequestDto.getMsisdn());
+            log.info("SUBSCRIBER SERVICE | DCBSERVICE CLASS | ProcessRequest | " + correlationId +" | "+ dcbRequestDto.getMsisdn());
             return getSuccessfulResponse(correlationId);
         }catch (Exception e){
             log.error("SUBSCRIBER SERVICE | DCBSERVICE CLASS | Exception | "+ e.getMessage());

@@ -6,6 +6,7 @@ import com.noeticworld.sgw.subscriber.config.RequestSender;
 import com.noeticworld.sgw.subscriber.dto.Action;
 import com.noeticworld.sgw.subscriber.dto.AppResponse;
 import com.noeticworld.sgw.subscriber.dto.RequestDto;
+import com.noeticworld.sgw.subscriber.repository.VendorPlansRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,13 @@ import java.util.UUID;
 public class SubscriptionService {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-    private String routingKey = "subscription";
+    //    private String routingKey = "subscription";
+
+    private String JAZZroutingKey = "JazzCharging";
+    private String ZONGroutingKey = "ZongCharging";
+
+    @Autowired
+    private VendorPlansRepository vendorPlansRepository;
 
     private static final Logger log = LoggerFactory.getLogger(SubscriptionService.class);
 
@@ -34,8 +41,20 @@ public class SubscriptionService {
         log.info("SUBSCRIBER SERVICE |  SUBSCRIPTIONSERVICE CLASS | REQUEST CAME FOR | "+requestDto.getMsisdn());
         try {
             String correlationId = Base64.getEncoder().encodeToString((LocalDateTime.now().format(formatter) + UUID.randomUUID().toString()).getBytes());
-            requestSender.send(routingKey, generateMessageJSON(vendorPlanId, requestDto, action, correlationId));
-            requestStatusService.createRequestState(correlationId, Long.parseLong(vendorPlanId));
+            //Get Operator Id from Vendors Plan where Vendor Plan Id is Equal to Id
+            Integer operator = vendorPlansRepository.getOperator(Integer.parseInt(vendorPlanId));
+            log.info("SUBSCRIBER SERVICE |  SUBSCRIPTIONSERVICE CLASS | VENDORS PLAN ID OPERATOR | " + operator);
+            if (operator == 1)
+            {
+                requestSender.send(JAZZroutingKey, generateMessageJSON(vendorPlanId, requestDto, action, correlationId));
+                requestStatusService.createRequestState(correlationId, Long.parseLong(vendorPlanId));
+            }
+            else if (operator == 4)
+            {
+                requestSender.send(ZONGroutingKey, generateMessageJSON(vendorPlanId, requestDto, action, correlationId));
+                requestStatusService.createRequestState(correlationId, Long.parseLong(vendorPlanId));
+            }
+
             return getSuccessfulResponse(correlationId);
         } catch (Exception e) {
             e.printStackTrace();

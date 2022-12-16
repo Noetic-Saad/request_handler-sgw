@@ -2,7 +2,6 @@ package com.noeticworld.sgw.subscriber.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.noeticworld.sgw.subscriber.api1.LogInController;
 import com.noeticworld.sgw.subscriber.dto.AppResponse;
 import com.noeticworld.sgw.subscriber.dto.RequestStatus;
 import com.noeticworld.sgw.subscriber.dto.ResponseTypeConstants;
