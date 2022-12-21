@@ -48,7 +48,7 @@ public class RequestStatusService {
             if (!requestStatus.getFetched()) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 try {
-                    redisRepository.saveVendorRequest(requestStatus.getCorrelationid(), objectMapper.writeValueAsString(requestStatus));
+                    redisRepository.saveVendorRequest(requestStatus.getCorrelationid(), objectMapper.writeValueAsString(requestStatus.toString()));
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
                 }
