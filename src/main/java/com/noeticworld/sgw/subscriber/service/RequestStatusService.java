@@ -55,6 +55,12 @@ public class RequestStatusService {
                 vendorRequestRepository.save(requestStatus);
             }
         }
+        else
+        {
+            appResponse.setCode(String.valueOf(000));
+            appResponse.setCorrelationId(correlationId);
+            appResponse.setMessage("correlationId not found");
+        }
         return appResponse;
     }
 
