@@ -37,7 +37,7 @@ public class RequestStatusService {
         requestStatus = redisRepository.findVendorRequestStatusFalse(correlationId);
         if(requestStatus == null)
         {
-            vendorRequestRepository.findVendorRequestsEntityByCorrelationidAndFetched(correlationId, false);
+            requestStatus = vendorRequestRepository.findVendorRequestsEntityByCorrelationidAndFetched(correlationId, false);
         }
         log.info("SUBSCRIBER SERVICE | REQUESTSTATUSSERVCIE CLASS | REQUEST CAME FOR GAME | " + correlationId);
         AppResponse appResponse = new AppResponse();
