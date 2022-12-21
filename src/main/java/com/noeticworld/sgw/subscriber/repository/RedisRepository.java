@@ -79,13 +79,22 @@ public class RedisRepository {
 
         VendorRequestsStateEntity vendorRequestStatusEntity = null;
         String vendor = (String) hashOperations.get(VendorRequestEntityKEY, CorelationId);
+        System.out.println(vendor);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            vendorRequestStatusEntity = objectMapper.readValue(vendor, VendorRequestsStateEntity.class);
-            if(vendorRequestStatusEntity.getFetched() == true)
+            if(vendor == null)
             {
                 return null;
             }
+            else
+            {
+                vendorRequestStatusEntity = objectMapper.readValue(vendor, VendorRequestsStateEntity.class);
+                if(vendorRequestStatusEntity.getFetched() == true)
+                {
+                    return null;
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
