@@ -11,8 +11,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +31,9 @@ public class RedisRepository {
         this.hashOperations = this.redisTemplate.opsForHash();
     }
 
-    public void saveVendorRequest(String key, String entity){
-        hashOperations.put(VendorRequestEntityKEY, key, entity);
-        log.info("REDISREPOSITORY SAVEVENDORREQUEST || VENDOREEQUEST ", entity.toString());
+    public void saveVendorRequest(VendorRequestsStateEntity requestStatus){
+        hashOperations.put(VendorRequestEntityKEY, requestStatus.getCorrelationid(), requestStatus);
+        log.info("REDISREPOSITORY SAVEVENDORREQUEST || VENDOREEQUEST ", requestStatus.toString());
     }
 
     public void saveOtpRecord(String key,String entity){
@@ -78,25 +76,20 @@ public class RedisRepository {
     public VendorRequestsStateEntity findVendorRequestStatusFalse(String CorelationId){
 
         VendorRequestsStateEntity vendorRequestStatusEntity = null;
-        String vendor = (String) hashOperations.get(VendorRequestEntityKEY, CorelationId);
-        System.out.println(vendor);
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            if(vendor == null)
+        vendorRequestStatusEntity = (VendorRequestsStateEntity) hashOperations.get(VendorRequestEntityKEY, CorelationId);
+//        System.out.println(vendor);
+//        ObjectMapper objectMapper = new ObjectMapper();
+        if(vendorRequestStatusEntity == null)
+        {
+            return null;
+        }
+        else
+        {
+//                vendorRequestStatusEntity = objectMapper.readValue(vendor, VendorRequestsStateEntity.class);
+            if(vendorRequestStatusEntity.getFetched() == true)
             {
                 return null;
             }
-            else
-            {
-                vendorRequestStatusEntity = objectMapper.readValue(vendor, VendorRequestsStateEntity.class);
-                if(vendorRequestStatusEntity.getFetched() == true)
-                {
-                    return null;
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         log.info("REDISREPOSITORY || FINDREQUESTSTATUSFALSE || " + vendorRequestStatusEntity.toString());
         return vendorRequestStatusEntity;
