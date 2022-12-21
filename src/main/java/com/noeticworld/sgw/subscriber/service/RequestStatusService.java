@@ -123,7 +123,7 @@ public class RequestStatusService {
         vendorRequestRepository.save(requestStatus);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            redisRepository.saveVendorRequest(requestStatus.getCorrelationid(), objectMapper.writeValueAsString(requestStatus));
+            redisRepository.saveVendorRequest(requestStatus.getCorrelationid(), objectMapper.writeValueAsString(requestStatus.toString()));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
