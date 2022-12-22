@@ -34,7 +34,7 @@ public class RequestStatusService {
     public AppResponse getRequestStatus(String correlationId) {
 
         VendorRequestsStateEntity requestStatus = null;
-        requestStatus = redisRepository.findVendorRequestStatusFalse(correlationId);
+        requestStatus = vendorRequestRepository.findVendorRequestsEntityByCorrelationidAndFetched(correlationId, false);
         if(requestStatus == null)
         {
             requestStatus = vendorRequestRepository.findVendorRequestsEntityByCorrelationidAndFetched(correlationId, false);
@@ -46,8 +46,7 @@ public class RequestStatusService {
             appResponse.setCorrelationId(correlationId);
             appResponse.setMessage(requestStatus.getDescription());
             if (!requestStatus.getFetched()) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                redisRepository.saveVendorRequest(requestStatus);
+                vendorRequestRepository.findVendorRequestsEntityByCorrelationidAndFetched(correlationId, false);
                 vendorRequestRepository.save(requestStatus);
             }
         }
@@ -117,8 +116,6 @@ public class RequestStatusService {
         requestStatus.setResultStatus(ResponseTypeConstants.REQUEST_IN_PROGRESS);
         requestStatus.setDescription(ResponseTypeConstants.REQUEST_IN_PROGRESS_DESCRIPTION);
         vendorRequestRepository.save(requestStatus);
-        ObjectMapper objectMapper = new ObjectMapper();
-        redisRepository.saveVendorRequest(requestStatus);
         log.info("SUBSCRIBER SERVICE | REQUESTSTATUSSERVCIE CLASS | CORRELATION ID SAVED  | " + correlationId);
     }
 }

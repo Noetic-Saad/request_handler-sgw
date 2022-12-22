@@ -58,8 +58,8 @@ public class OtpVerificationController {
     public Long fetchotpFromDatabase(long msisdn) throws InterruptedException {
         Thread.sleep(3000);
         long code;
-        code = getTopOtpRecordFromMsidn(msisdn);
-//        code=otpRecordRepository.findTopByMsisdn(msisdn);
+//        code = getTopOtpRecordFromMsidn(msisdn);
+        code=otpRecordRepository.findTopByMsisdn(msisdn);
         System.out.println("Fetch OTP Record For Msisdn : "+code);
         return code;
     }
@@ -85,7 +85,7 @@ public class OtpVerificationController {
             }
         });
 
-        System.out.println(recordsEntities.get(0).getOtpNumber());
+//        System.out.println(recordsEntities.get(0).getOtpNumber());
         return new Long(otpRecordsEntityList.get(0).getOtpNumber());
     }
 }

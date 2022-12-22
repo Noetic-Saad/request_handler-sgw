@@ -88,12 +88,13 @@ public class VendorRequestsStateEntity implements Serializable {
                 Objects.equals(resultStatus, that.resultStatus) &&
                 Objects.equals(isFetched, that.isFetched) &&
                 Objects.equals(cdatetime, that.cdatetime) &&
-                Objects.equals(description, that.description);
+                Objects.equals(description, that.description)&&
+                Objects.equals(vendorPlanId,that.vendorPlanId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, correlationid, resultStatus, isFetched, cdatetime, description);
+        return Objects.hash(id, correlationid, resultStatus, isFetched, cdatetime, description,vendorPlanId);
     }
 
     @Basic
